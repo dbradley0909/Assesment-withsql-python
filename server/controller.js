@@ -234,12 +234,14 @@ module.exports = {
             res.sendStatus(200)
         }).catch(err => console.log('error seeding DB', err))
     },
-    getCountries: (req, res) => {
-        sequelize.query(
-            `select * from countries as c;
-            `).then(() => {
-            dbRes => res.status(200).send(dbRes[0])
-        }).catch(err => console.log(err))
+    
+ getCountries: (req, res) => {
+    sequelize.query(
+        `select * from countries as c;
+        `)
+        .then(() => {
+        dbRes => res.status(200).send(dbRes[0])
+    })
     },
     createCity: (req, res) => {
         const { name, rating, countryId} = req.body;
@@ -247,7 +249,8 @@ module.exports = {
             `select * from cities as ci
         insert into ci_cities (name, rating, country_id)
         values (${name}, ${rating}, ${countryId})
-        `).then(() => {
+        `)
+        .then(() => {
             dbRes => res.status(200).send(dbRes[0])
         }).catch(err => console.log(err))
     },
@@ -255,7 +258,8 @@ module.exports = {
         sequelize.query(` select ci.cities, ci.cities_id, ci.name, ci.rating, c.country_id, c.name
         from cities as ci
         join cities ci on countries c = c.country_id
-        `).then(() => {
+        `)
+        .then(() => {
             dbRes => res.status(200).send(dbRes[0])
         }).catch(err => console.log(err))
     },
@@ -263,7 +267,8 @@ module.exports = {
         let {id} = req.params.id;
         sequelize.query(` 
         let sql = DELETE FROM cities WHERE ci.cities_id = ${req.params.id};
-        console.log("id: ", req.params.id);`).then(() => {
+        console.log("id: ", req.params.id);`)
+        .then(() => {
             dbRes => res.status(200).send(dbRes[0])
         }).catch(err => console.log(err))
     }
